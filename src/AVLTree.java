@@ -30,7 +30,8 @@ public class AVLTree {
             Node newNode = new Node(value);
             newNode.setHeight(1); // altura inicial
 
-            System.out.println("Nodo insertado: " + newNode.getValue() + " balance al insertar: " + getBalance(newNode));
+            System.out
+                    .println("Nodo insertado: " + newNode.getValue() + " balance al insertar: " + getBalance(newNode));
 
             return newNode;
         }
@@ -66,20 +67,62 @@ public class AVLTree {
         }
 
         // Caso Izquierda-Derecha (mixto)
+
         if (balance > 1 && value > node.getLeft().getValue()) {
-            System.out.println("Cambio ");
+            System.out.println("-> Cambio ");
             System.out.println("Rotacion Izquierda-Derecha");
         }
 
         // Caso Derecha-Izquierda (mixto)
         if (balance < -1 && value < node.getRight().getValue()) {
-            System.out.println("Cambio ");
+            System.out.println("-> Cambio ");
             System.out.println("Rotacion Derecha-Izquierda");
         }
 
         return node;// falta calcular el factor de equilibrio
 
     }
+
+    private Node rotateLeft(Node x) {
+        Node y = x.getRight();
+        Node T2 = y.getLeft();
+
+        y.setLeft(x);
+        x.setRight(T2);
+
+        x.setHeight(1 + Math.max(height(x.getLeft()), height(x.getRight())));
+        y.setHeight(1 + Math.max(height(y.getLeft()), height(y.getRight())));
+
+        return y;
+    }
+
+    private Node rotateRight(Node y) {
+        Node x = y.getLeft();
+        Node T2 = x.getRight();
+
+        x.setRight(y);
+        y.setLeft(T2);
+
+        y.setHeight(1 + Math.max(height(y.getLeft()), height(y.getRight())));
+        x.setHeight(1 + Math.max(height(x.getLeft()), height(x.getRight())));
+
+        return x;
+    }
+
+    // metodos para imprimir
+    public void printInOrder() {
+        printInOrder(root);
+        System.out.println();
+    }
+
+    private void printInOrder(Node node) {
+        if (node != null) {
+            printInOrder(node.getLeft());
+            System.out.print(node.getValue() + " ");
+            printInOrder(node.getRight());
+        }
+    }
+
 }
 
 /*
